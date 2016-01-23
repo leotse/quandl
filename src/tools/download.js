@@ -4,10 +4,10 @@
 // libs
 var async = require('async');
 var parse = require('minimist');
-var log = require('lib/log');
 
-var dl = require('tools/downloader');
-var lookup = require('tools/lookup');
+var dl = require('./downloader');
+var lookup = require('lib/lookup');
+var log = require('lib/log');
 
 // parse command line args
 var argv = parse(process.argv.slice(2));

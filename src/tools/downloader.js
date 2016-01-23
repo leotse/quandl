@@ -17,7 +17,7 @@ var download = module.exports = function (ticker, callback) {
   log('downloading', ticker);
 
   var url = util.format(URL, ticker, config.QUANDL_TOKEN);
-  var outFile = path.join(__dirname, '../../data', ticker + '.csv');
+  var outFile = path.join(__dirname, '../../data', ticker.toUpperCase() + '.csv');
   var out = fs.createWriteStream(outFile);
 
   var stream = request.get(url);
