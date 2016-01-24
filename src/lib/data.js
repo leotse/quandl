@@ -73,13 +73,11 @@ function parse(content) {
       volume: Number(parts[5]),
       ex_dividend: Number(parts[6]),
       split_ratio: Number(parts[7]),
-      adj: {
-        open: Number(parts[8]),
-        high: Number(parts[9]),
-        low: Number(parts[10]),
-        close: Number(parts[11]),
-        volume: Number(parts[12])
-      }
+      adj_open: Number(parts[8]),
+      adj_high: Number(parts[9]),
+      adj_low: Number(parts[10]),
+      adj_close: Number(parts[11]),
+      adj_volume: Number(parts[12])
     };
   })
   .without(null)
