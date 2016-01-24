@@ -2,12 +2,17 @@
 // Also supports index wide downloads
 
 // libs
+var path = require('path');
 var async = require('async');
 var parse = require('minimist');
+var mkdirp = require('mkdirp');
 
 var dl = require('./downloader');
 var lookup = require('lib/lookup');
 var log = require('lib/log');
+
+// init data folder
+mkdirp.sync(path.join(__dirname, '../../data'));
 
 // parse command line args
 var argv = parse(process.argv.slice(2));
