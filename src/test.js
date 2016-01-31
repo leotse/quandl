@@ -24,13 +24,16 @@ function onLoaded(err, data) {
   // add technicals
   _(data[TICKER])
     .map(plugins.change('adj_close'))
-    .map(plugins.sma(200, 'adj_close'))
+    .map(plugins.sma(50, 'adj_close'))
+    .map(plugins.ema(50, 'adj_close'))
     .map(plugins.delta('adj_close', 'sma200'))
     .map(plugins.rsi(10, 'change'))
     .value();
 
-  // print.pretty(data[TICKER].slice(0, 252), [ 'date', 'adj_close', 'change', 'sma200', 'delta' ]);
-  print(data[TICKER].slice(0, 20), [ 'date', 'adj_close', 'change', 'sma200', 'rsi' ]);
+  log('done!');
+
+  // print.pretty(data[TICKER].slice(0, 252), [ 'date', 'adj_close', 'change', 'sma200', 'delta', 'rsi' ]);
+  print(data[TICKER].slice(0, 252), [ 'date', 'adj_close', 'sma50', 'ema50' ]);
 
   // feed data to trader
   // var trader = new Trader({ on: 'adj_close', cash: 10000 });

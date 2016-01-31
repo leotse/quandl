@@ -18,7 +18,7 @@ module.exports.change = function(prop) {
   };
 };
 
-// simple moving average plugin
+// simple moving average(sma)
 module.exports.sma = function(days, prop) {
   return function(stat, i, stats) {
     var key = 'sma' + days;
@@ -27,6 +27,27 @@ module.exports.sma = function(days, prop) {
     } else {
       var slice = stats.slice(i, i + days);
       stat[key] = _.sumBy(slice, prop) / _.size(slice);
+    }
+    return stat;
+  };
+};
+
+// exponential moving average(ema)
+module.exports.ema = function(days, prop) {
+  var alpha = 2 / (days + 1);
+  var key = 'ema' + days;
+
+  // calculate when the weight becomes negligible
+  var c = getPow(1 - alpha, 1e-6);
+
+  return function(stat, i, stats) {
+    if(i + c >= stats.length) {
+      stat[key] = null;
+    } else {
+      var slice = stats.slice(i, i + c);
+      stat[key] = _(slice).map(function(stat, power) {
+        return stat[prop] * Math.pow(1 - alpha, power);
+      }).sum() * alpha;
     }
     return stat;
   };
@@ -64,3 +85,14 @@ module.exports.rsi = function(days, prop) {
     return stat;
   };
 };
+
+// helper - calculates n when Math.pow(alpha, n) < epsilon
+// alpha must < 1 obvisouly
+function getPow(alpha, epsilon) {
+  var pow = 0;
+  var weight = alpha;
+  while(weight > epsilon) {
+    weight = Math.pow(alpha, ++pow);
+  }
+  return pow;
+}
