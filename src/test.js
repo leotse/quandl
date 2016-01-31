@@ -5,9 +5,10 @@
 var _ = require('lodash');
 var log = require('lib/log');
 var data = require('lib/data');
-var print = require('lib/printer');
 var plugins = require('lib/plugins');
 var Trader = require('lib/trader');
+
+var print = require('lib/printer');
 
 // arg
 var TICKER = 'MSFT';
@@ -25,12 +26,14 @@ function onLoaded(err, data) {
     .map(plugins.change('adj_close'))
     .map(plugins.sma(200, 'adj_close'))
     .map(plugins.delta('adj_close', 'sma200'))
+    .map(plugins.rsi(10, 'change'))
     .value();
 
-  // print(data[TICKER].slice(0, 504), [ 'date', 'close', 'change', 'sma200', 'delta' ]);
+  // print.pretty(data[TICKER].slice(0, 252), [ 'date', 'adj_close', 'change', 'sma200', 'delta' ]);
+  print(data[TICKER].slice(0, 20), [ 'date', 'adj_close', 'change', 'sma200', 'rsi' ]);
 
   // feed data to trader
-  var trader = new Trader({ on: 'adj_close', cash: 10000 });
-  trader.simulate(data[TICKER].slice(0, 252 * 3));
-  console.log(trader.pnl());
+  // var trader = new Trader({ on: 'adj_close', cash: 10000 });
+  // trader.simulate(data[TICKER].slice(0, 252 * 3));
+  // console.log(trader.pnl());
 }
