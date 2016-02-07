@@ -16,15 +16,15 @@ module.exports = function Trader(opts) {
     _.each(data.reverse(), function(d) {
 
       // oversold?
-      if(d.delta <= -0.05) {
-        var shares = Math.floor(cash * 0.05 / d[opts.on]);
+      if(d.rsi10 <= 30) {
+        var shares = Math.floor(cash * 0.1 / d[opts.on]);
         if(shares > 0) {
           long(d.date, d[opts.on], shares);
         }
       }
 
       // look for exit
-      if(owned > 0 && d.delta >= 0) {
+      if(owned > 0 && d.rsi10 >= 70) {
         short(d.date, d[opts.on], owned);
       }
 
