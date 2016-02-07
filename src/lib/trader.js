@@ -16,7 +16,7 @@ module.exports = function Trader(opts) {
     _.each(data.reverse(), function(d) {
 
       // oversold?
-      if(d.rsi10 <= 30) {
+      if(d.w_rsi_10 <= 30) {
         var shares = Math.floor(cash * 0.1 / d[opts.on]);
         if(shares > 0) {
           long(d.date, d[opts.on], shares);
@@ -24,7 +24,7 @@ module.exports = function Trader(opts) {
       }
 
       // look for exit
-      if(owned > 0 && d.rsi10 >= 70) {
+      if(owned > 0 && d.w_rsi_10 >= 70) {
         short(d.date, d[opts.on], owned);
       }
 

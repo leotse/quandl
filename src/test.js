@@ -11,7 +11,7 @@ var Trader = require('lib/trader');
 var print = require('lib/printer');
 
 // arg
-var TICKER = 'GS';
+var TICKER = 'MSFT';
 
 // start!
 log('loading ');
@@ -31,20 +31,20 @@ function onLoaded(err, data) {
 
   log('done!');
 
-  print(data[TICKER].slice(0, 252*1), [
-    'date',
-    'adj_open',
-    'adj_close',
-    'adj_high',
-    'adj_low',
-    'adj_volume',
-    'change',
-    'changepct',
-    'w_rsi_10'
-  ]);
+  // print(data[TICKER].slice(0, 252*1), [
+  //   'date',
+  //   'adj_open',
+  //   'adj_close',
+  //   'adj_high',
+  //   'adj_low',
+  //   'adj_volume',
+  //   'change',
+  //   'changepct',
+  //   'w_rsi_10'
+  // ]);
 
   // feed data to trader
-  // var trader = new Trader({ on: 'adj_close', cash: 10000 });
-  // trader.simulate(data[TICKER].slice(0, 252 * 5));
-  // console.log(trader.pnl());
+  var trader = new Trader({ on: 'adj_close', cash: 10000 });
+  trader.simulate(data[TICKER].slice(0, 252 * 5));
+  console.log(trader.pnl());
 }
